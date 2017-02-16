@@ -56,4 +56,6 @@ module.exports.routes = {
   'GET /department/:id' :  'DepartmentController.findOne',
   'PUT /department/:id' :  'DepartmentController.update',
 
+
+
 };
