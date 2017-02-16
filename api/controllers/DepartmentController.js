@@ -91,7 +91,13 @@ module.exports = {
 
       })
       .catch(err => res.negotiate(err));
+  },
+
+  update:function (req,res) {
+
+    return res.ok('Working bro');
   }
+
 
 };
 
