@@ -1,7 +1,7 @@
 /**
  * Department.js
  *
- * @description :: TODO: You might write a short summary of how this model works and what it represents here.
+ * @description :: A Department model. This model will represent a table in database
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
  */
 

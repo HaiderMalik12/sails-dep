@@ -7,7 +7,12 @@
 
 module.exports = {
 
-  //POST Department
+  /**
+   * This method will created a new department in db
+   * @param req
+   * @param res
+   * @returns {object} - response object with newly created department
+   */
   create: function (req, res) {
 
     let validParams = ['name', 'location'],
@@ -34,6 +39,31 @@ module.exports = {
         if (!dep) throw new CustomError('Could not add department. Please try again later', {status: 500});
 
         return res.ok(dep);
+
+      })
+      .catch(err => {
+        if (err && err.name == 'Custom Error') {
+          res.send({err: err.message}, err.status);
+        } else res.negotiate(err);
+      });
+
+  },
+
+  /**
+   * This method will find all departments and return all the department
+   * @param req
+   * @param res
+   * @returns {object} - A response object with the list of departments
+   */
+  find:function (req,res) {
+
+    Department
+      .find()
+      .then(departments => {
+
+        if(!departments || departments.length ==0) throw new CustomError('Could not find any department', {status: 500});
+
+        return res.ok(departments);
 
       })
       .catch(err => {
