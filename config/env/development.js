@@ -11,14 +11,31 @@
  */
 
 module.exports = {
-
   /***************************************************************************
    * Set the default database connection for models in the development       *
    * environment (see config/connections.js and config/models.js )           *
    ***************************************************************************/
 
-  // models: {
-  //   connection: 'someMongodbServer'
-  // }
 
+  connections: {
+
+    mysqlServer: {
+      adapter: 'sails-mysql',
+      user: 'root',
+      password: 'root',
+      database: 'bridg_api',
+      port: 3306,
+      host: 'localhost'
+    }
+
+
+  },
+
+  models: {
+    connection: 'mysqlServer'
+  },
+
+
+  port: 1337
 };
+
