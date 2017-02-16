@@ -7,6 +7,10 @@
 
 module.exports = {
 
+  autoCreatedAt: false,
+  autoUpdatedAt: false,
+  tableName: 'departments',
+
   attributes: {
 
     name:{
