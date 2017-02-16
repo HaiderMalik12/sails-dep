@@ -66,6 +66,12 @@ module.exports = {
 
   },
 
+  /**
+   * This method will find a department on the based of departmentId
+   * @param req
+   * @param res
+   * @returns {object} - A response object with single department
+   */
   findone: function (req, res) {
 
     let depId = req.params.id;
