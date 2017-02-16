@@ -37,9 +37,7 @@ module.exports.routes = {
   },
 
 
-  //Department routes
-  'POST /department': 'DepartmentController.create',
-  'GET /departments': 'DepartmentController.find',
+
 
   /***************************************************************************
   *                                                                          *
@@ -50,5 +48,11 @@ module.exports.routes = {
   * for configuration options and examples.                                  *
   *                                                                          *
   ***************************************************************************/
+
+
+  //Department routes
+  'POST /department': 'DepartmentController.create',
+  'GET /departments': 'DepartmentController.find',
+  'GET /department/:id': 'DepartmentController.findOne',
 
 };

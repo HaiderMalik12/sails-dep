@@ -53,7 +53,7 @@ module.exports = {
    * This method will find all departments and return all the department
    * @param req
    * @param res
-   * @returns {object} - A response object with the list of departments
+   * @returns {array} - List of departments
    */
   find:function (req,res) {
 
@@ -72,6 +72,10 @@ module.exports = {
         } else res.negotiate(err);
       });
 
+  },
+
+  findone:function (req,res) {
+    return res.ok('Working here');
   }
 };
 
