@@ -54,7 +54,7 @@ module.exports.routes = {
   'POST /department'    :  'DepartmentController.create',
   'GET /departments'    :  'DepartmentController.find',
   'GET /department/:id' :  'DepartmentController.findOne',
-  'PUT /department/:id' :  'DepartmentController.update',
+  'PUT /department/:id' :  'DepartmentController.update'
 
 
 

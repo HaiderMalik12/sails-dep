@@ -141,6 +141,10 @@ module.exports = {
     })
       .catch(err => res.negotiate(err));
 
+  },
+  test:function (req,res) {
+
+    return res.ok('Workin');
   }
 
 };
