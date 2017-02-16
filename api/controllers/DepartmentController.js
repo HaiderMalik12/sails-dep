@@ -7,9 +7,34 @@
 
 module.exports = {
 
-  create : function (req,res) {
+  //POST Department
+  create: function (req, res) {
 
-    res.ok('Department is working now!!');
+    let validParams = ['name', 'location'],
+      params = _.pick(req.body, validParams);
+
+    if (!params.name) {
+
+      return res.badRequest({err: 'Invalid name field', status: 400});
+    }
+
+    if (!params.location) {
+
+      return res.badRequest({err: 'Invalid location field', status: 400});
+    }
+
+
+    Department
+      .create({
+      name:params.name,
+      location:params.location
+    })
+      .then(dep => {
+
+        if(!dep) throw ''
+
+      })
+
   }
 };
 

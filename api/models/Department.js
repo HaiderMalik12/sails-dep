@@ -15,7 +15,8 @@ module.exports = {
     },
 
     location:{
-      type:'string'
+      type:'string',
+      required:true
     }
   }
 };
