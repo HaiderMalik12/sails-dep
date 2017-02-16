@@ -34,7 +34,11 @@ module.exports.routes = {
 
   '/': {
     view: 'homepage'
-  }
+  },
+
+
+  //Department routes
+  'POST /department': 'DepartmentController.create',
 
   /***************************************************************************
   *                                                                          *
