@@ -26,14 +26,21 @@ module.exports = {
 
     Department
       .create({
-      name:params.name,
-      location:params.location
-    })
+        name: params.name,
+        location: params.location
+      })
       .then(dep => {
 
-        if(!dep) throw ''
+        if (!dep) throw new CustomError('Could not add department. Please try again later', {status: 500});
+
+        return res.ok(dep);
 
       })
+      .catch(err => {
+        if (err && err.name == 'Custom Error') {
+          res.send({err: err.message}, err.status);
+        } else res.negotiate(err);
+      });
 
   }
 };
