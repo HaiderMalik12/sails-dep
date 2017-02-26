@@ -142,9 +142,18 @@ module.exports = {
       .catch(err => res.negotiate(err));
 
   },
-  test:function (req,res) {
+  delete:function (req,res) {
 
-    return res.ok('Workin');
+  let depId = req.params.id;
+
+    if (!depId || isNaN(depId)) {
+
+      return res.badRequest({err: 'Invalid id field', status: 400});
+    }
+  
+   Department.destroy({id:depId})
+   .then(res.ok)
+   .catch(res.negotiate);
   }
 
 };
