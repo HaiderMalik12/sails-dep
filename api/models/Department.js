@@ -21,6 +21,9 @@ module.exports = {
     location:{
       type:'string',
       required:true
+    },
+    block : {
+      type: 'string'
     }
   }
 };

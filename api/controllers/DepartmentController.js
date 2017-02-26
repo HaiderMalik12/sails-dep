@@ -15,7 +15,7 @@ module.exports = {
    */
   create: function (req, res) {
 
-    let validParams = ['name', 'location'],
+    let validParams = ['name', 'location','block'],
       params = _.pick(req.body, validParams);
 
     if (!params.name) {
@@ -32,7 +32,8 @@ module.exports = {
     Department
       .create({
         name: params.name,
-        location: params.location
+        location: params.location,
+        block : params.block
       })
       .then(dep => {
 
