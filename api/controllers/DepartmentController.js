@@ -15,34 +15,54 @@ module.exports = {
    */
   create: function (req, res) {
 
-    let validParams = ['name', 'location','block'],
+    let validParams = ['name', 'location', 'block', 'user_name'],
       params = _.pick(req.body, validParams);
 
     if (!params.name) {
 
-      return res.badRequest({err: 'Invalid name field', status: 400});
+      return res.badRequest({ err: 'Invalid name field', status: 400 });
     }
 
     if (!params.location) {
 
-      return res.badRequest({err: 'Invalid location field', status: 400});
+      return res.badRequest({ err: 'Invalid location field', status: 400 });
     }
 
+    if (!params.user_name) {
+
+      return res.badRequest({ err: 'Invalid user_name field', status: 400 });
+    }
+
+    let resp = {};
 
     Department
       .create({
         name: params.name,
         location: params.location,
-        block : params.block
+        block: params.block
       })
-      .then(dep => {
 
-        if (!dep) throw ({err: 'Could not add department. Please try again later', status: 500});
+      .then(_dep => {
 
-        return res.ok(dep);
+        if (!_dep) throw ({ err: 'Could not add department. Please try again later', status: 500 });
+
+        resp = _dep;
+
+        return User.create({ name: params.user_name, department: _dep.id });
+
+
+      })
+      .then(_user => {
+        if (!_user) throw ({ err: 'Could not add user. Please try again later', status: 500 });
+
+        resp.user = _user;
+
+        return res.ok(resp);
 
       })
       .catch(err => res.negotiate(err));
+
+
 
   },
 
@@ -58,7 +78,7 @@ module.exports = {
       .find()
       .then(departments => {
 
-        if (!departments || departments.length == 0) throw ({err: 'Could not find any department', status: 404});
+        if (!departments || departments.length == 0) throw ({ err: 'Could not find any department', status: 404 });
 
         return res.ok(departments);
 
@@ -79,14 +99,14 @@ module.exports = {
 
     if (!depId || isNaN(depId)) {
 
-      return res.badRequest({err: 'Invalid id field', status: 400});
+      return res.badRequest({ err: 'Invalid id field', status: 400 });
     }
 
     Department
-      .findOne({id: depId})
+      .findOne({ id: depId })
       .then(dep => {
 
-        if (!dep) throw ({msg: 'Could not find any Department.', status: 404});
+        if (!dep) throw ({ msg: 'Could not find any Department.', status: 404 });
 
         return res.ok(dep);
 
@@ -110,7 +130,7 @@ module.exports = {
 
     if (!depId || isNaN(depId)) {
 
-      return res.badRequest({err: 'Invalid id field', status: 400});
+      return res.badRequest({ err: 'Invalid id field', status: 400 });
     }
 
     let attribute = {};
@@ -129,13 +149,13 @@ module.exports = {
     sails.bluebird.props({
 
       dep: Department
-        .findOne({id: depId}),
+        .findOne({ id: depId }),
       updatedDep: Department
-        .update({id: depId}, attribute)
+        .update({ id: depId }, attribute)
 
     }).then(props => {
 
-      if (!props.dep || !props.updatedDep) throw({err: 'Could update your department', status: 500});
+      if (!props.dep || !props.updatedDep) throw ({ err: 'Could update your department', status: 500 });
 
       return res.ok(props.updatedDep);
 
@@ -143,18 +163,18 @@ module.exports = {
       .catch(err => res.negotiate(err));
 
   },
-  delete:function (req,res) {
+  delete: function (req, res) {
 
-  let depId = req.params.id;
+    let depId = req.params.id;
 
     if (!depId || isNaN(depId)) {
 
-      return res.badRequest({err: 'Invalid id field', status: 400});
+      return res.badRequest({ err: 'Invalid id field', status: 400 });
     }
-  
-   Department.destroy({id:depId})
-   .then(res.ok)
-   .catch(res.negotiate);
+
+    Department.destroy({ id: depId })
+      .then(res.ok)
+      .catch(res.negotiate);
   }
 
 };

@@ -13,17 +13,23 @@ module.exports = {
 
   attributes: {
 
-    name:{
-      type:'string',
-      required:true
+    name: {
+      type: 'string',
+      required: true
     },
 
-    location:{
-      type:'string',
-      required:true
+    location: {
+      type: 'string',
+      required: true
     },
-    block : {
+    block: {
       type: 'string'
+    },
+
+    //Associations
+    users: {
+      collection: 'user',
+      via: 'department'
     }
   }
 };
