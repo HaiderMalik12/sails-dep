@@ -35,42 +35,29 @@ module.exports = {
 
     let resp = {};
 
-
-    User
-      .create({ name: params.username })
-      .then(_user => {
-
-        if (!_user) throw ({ err: 'Could not add user. Please try again later', status: 500 });
-
-
-        resp.user = _user;
-
-        return _user;
-
-      })
-      .then(_user => {
-
-        return Department.create({
-          name: params.name,
-          location: params.location,
-          block: params.block,
-          user: _user.id
-        });
-
+    Department
+      .create({
+        name: params.name,
+        location: params.location,
+        block: params.block
       })
       .then(_dep => {
 
         if (!_dep) throw ({ err: 'Could not add department. Please try again later', status: 500 });
 
-        resp.department = _dep;
+        resp = _dep;
+
+        return User.create({ name: params.username, department: _dep.id });
+      })
+      .then(_user => {
+        if (!_user) throw ({ err: 'Could not add user. Please try again later', status: 500 });
+
+        resp.user = _user;
 
         return res.ok(resp);
+
       })
-      .catch(err => res.negotiate);
-
-
-
-
+      .catch(err => res.negotiate(err));
 
 
 
@@ -201,7 +188,7 @@ module.exports = {
       return res.badRequest({ err: 'Invalid id field', status: 400 });
     }
 
-    Department.find({ id: depId })
+    Department.find({id:depId})
       .populate('users')
       .then(res.ok)
       .catch(res.negotiate);

@@ -27,9 +27,9 @@ module.exports = {
     },
 
     //Associations
-    user:{
-      columnName:'user_id',
-      model:'user'
+    users: {
+      collection: 'user',
+      via: 'department'
     }
 
   }
