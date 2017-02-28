@@ -11,11 +11,11 @@ module.exports = {
    * This method will created a new department in db
    * @param req
    * @param res
-   * @returns {object} - response object with newly created department
+   * @returns {object} - response object with newly created department and user
    */
-  create: function (req, res) {
+  create: (req, res) => {
 
-    let validParams = ['name', 'location', 'block', 'user_name'],
+    let validParams = ['name', 'location', 'block', 'username'],
       params = _.pick(req.body, validParams);
 
     if (!params.name) {
@@ -28,7 +28,7 @@ module.exports = {
       return res.badRequest({ err: 'Invalid location field', status: 400 });
     }
 
-    if (!params.user_name) {
+    if (!params.username) {
 
       return res.badRequest({ err: 'Invalid user_name field', status: 400 });
     }
@@ -48,7 +48,7 @@ module.exports = {
 
         resp = _dep;
 
-        return User.create({ name: params.user_name, department: _dep.id });
+        return User.create({ name: params.username, department: _dep.id });
 
 
       })
@@ -72,7 +72,7 @@ module.exports = {
    * @param res
    * @returns {array} - List of departments
    */
-  find: function (req, res) {
+  find: (req, res) => {
 
     Department
       .find()
@@ -93,7 +93,7 @@ module.exports = {
    * @param res
    * @returns {object} - A response object with single department
    */
-  findone: function (req, res) {
+  findone: (req, res) => {
 
     let depId = req.params.id;
 
@@ -120,7 +120,7 @@ module.exports = {
    * @param res
    * @returns {object} - A response object with updated department
    */
-  update: function (req, res) {
+  update: (req, res) => {
 
 
     let validParams = ['name', 'location', 'id'],
@@ -163,7 +163,7 @@ module.exports = {
       .catch(err => res.negotiate(err));
 
   },
-  delete: function (req, res) {
+  delete: (req, res) => {
 
     let depId = req.params.id;
 
@@ -175,6 +175,9 @@ module.exports = {
     Department.destroy({ id: depId })
       .then(res.ok)
       .catch(res.negotiate);
+  },
+  findUsers:(req,res) => {
+
   }
 
 };
