@@ -51,11 +51,12 @@ module.exports.routes = {
 
 
   //Department routes
-  'POST /department'    :  'DepartmentController.create',
-  'GET /departments'    :  'DepartmentController.find',
-  'GET /department/:id' :  'DepartmentController.findOne',
-  'PUT /department/:id' :  'DepartmentController.update',
-  'DELETE /department/:id' :  'DepartmentController.delete',
+  'POST /department': 'DepartmentController.create',
+  'GET /departments': 'DepartmentController.find',
+  'GET /department/:id': 'DepartmentController.findOne',
+  'PUT /department/:id': 'DepartmentController.update',
+  'DELETE /department/:id': 'DepartmentController.delete',
+  'GET /department/:id/users': 'DepartmentController.findUsers',
 
 
 

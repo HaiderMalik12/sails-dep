@@ -35,32 +35,42 @@ module.exports = {
 
     let resp = {};
 
-    Department
-      .create({
-        name: params.name,
-        location: params.location,
-        block: params.block
-      })
 
+    User
+      .create({ name: params.username })
+      .then(_user => {
+
+        if (!_user) throw ({ err: 'Could not add user. Please try again later', status: 500 });
+
+
+        resp.user = _user;
+
+        return _user;
+
+      })
+      .then(_user => {
+
+        return Department.create({
+          name: params.name,
+          location: params.location,
+          block: params.block,
+          user: _user.id
+        });
+
+      })
       .then(_dep => {
 
         if (!_dep) throw ({ err: 'Could not add department. Please try again later', status: 500 });
 
-        resp = _dep;
-
-        return User.create({ name: params.username, department: _dep.id });
-
-
-      })
-      .then(_user => {
-        if (!_user) throw ({ err: 'Could not add user. Please try again later', status: 500 });
-
-        resp.user = _user;
+        resp.department = _dep;
 
         return res.ok(resp);
-
       })
-      .catch(err => res.negotiate(err));
+      .catch(err => res.negotiate);
+
+
+
+
 
 
 
@@ -176,7 +186,25 @@ module.exports = {
       .then(res.ok)
       .catch(res.negotiate);
   },
-  findUsers:(req,res) => {
+  /**
+   * This method will fetch all the users based on department id
+   * @param req {object} 
+   * @param res {object}
+   * @returns {object} - A response object with list of users for a single department
+   */
+  findUsers: (req, res) => {
+
+    let depId = req.params.id;
+
+    if (!depId || isNaN(depId)) {
+
+      return res.badRequest({ err: 'Invalid id field', status: 400 });
+    }
+
+    Department.find({ id: depId })
+      .populate('users')
+      .then(res.ok)
+      .catch(res.negotiate);
 
   }
 

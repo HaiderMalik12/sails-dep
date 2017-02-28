@@ -12,14 +12,14 @@ module.exports = {
   autoUpdatedAt: false,
   attributes: {
 
-    name: { 
+    name: {
       type: 'string'
-     },
-
-    department: {
-      model: 'department',
-      columnName: 'department_id'
+    },
+    departments: {
+      collection: 'department',
+      via: 'user'
     }
+
   }
 };
 

@@ -27,10 +27,11 @@ module.exports = {
     },
 
     //Associations
-    users: {
-      collection: 'user',
-      via: 'department'
+    user:{
+      columnName:'user_id',
+      model:'user'
     }
+
   }
 };
 
