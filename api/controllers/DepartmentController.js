@@ -15,7 +15,7 @@ module.exports = {
    */
   create: (req, res) => {
 
-    let validParams = ['name', 'location', 'block', 'username'],
+    let validParams = ['name', 'location', 'block', 'username','userAge','userAddress'],
       params = _.pick(req.body, validParams);
 
     if (!params.name) {
@@ -33,6 +33,16 @@ module.exports = {
       return res.badRequest({ err: 'Invalid user_name field', status: 400 });
     }
 
+     if (!params.userAge || isNaN(params.userAge)) {
+
+      return res.badRequest({ err: 'Invalid user_age field', status: 400 });
+    }
+
+     if (!params.userAddress) {
+
+      return res.badRequest({ err: 'Invalid user address field', status: 400 });
+    }
+
     let resp = {};
 
     Department
@@ -47,7 +57,12 @@ module.exports = {
 
         resp = _dep;
 
-        return User.create({ name: params.username, department: _dep.id });
+        return User.create({
+            name: params.username,
+            department: _dep.id,
+            age:params.userAge,
+            address: params.userAddress
+          });
       })
       .then(_user => {
         if (!_user) throw ({ err: 'Could not add user. Please try again later', status: 500 });
@@ -73,6 +88,7 @@ module.exports = {
 
     Department
       .find()
+      .populate('users')
       .then(departments => {
 
         if (!departments || departments.length == 0) throw ({ err: 'Could not find any department', status: 404 });
@@ -188,7 +204,7 @@ module.exports = {
       return res.badRequest({ err: 'Invalid id field', status: 400 });
     }
 
-    Department.find({id:depId})
+    Department.findOne({id:depId})
       .populate('users')
       .then(res.ok)
       .catch(res.negotiate);
